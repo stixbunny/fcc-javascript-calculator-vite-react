@@ -2,19 +2,42 @@ import Button from "./Button"
 import { evaluate } from "mathjs"
 import PropTypes from 'prop-types'
 
-function Buttons({formula, setFormula, setOperand}) {
-    const handleClick = (operand) => {
-        setOperand(operand)
-        if(operand == "AC") {
-            setFormula("")
-        }
-        else if(operand == "=") {
-            const result = evaluate(formula).toString()
-            console.log(formula + "=" + result)
-            setFormula((prev) => prev + "=" + result)
+function Buttons({formula, setFormula, setOperand, setResult, result, operand}) {
+    const handleClick = (newOperand) => {
+        if((operand == "+" ||
+            operand == "-" ||
+            operand == "/" ||
+            operand == "*" ||
+            operand == "." ||
+            operand == "=") &&
+            operand == newOperand) {
+            //pass
         }
         else {
-            setFormula((prev) => prev + operand)
+            setOperand(newOperand)
+            if(newOperand == "AC") {
+                setFormula("")
+                setResult("")
+                setOperand("")
+            }
+            else if(newOperand == "=") {
+                const res = evaluate(formula).toString()
+                setResult(res)
+                console.log(formula + "=" + res)
+                setFormula((prev) => prev + "=" + res)
+            }
+            else if((newOperand == "+" ||
+                    newOperand == "-" ||
+                    newOperand == "/" ||
+                    newOperand == "*") &&
+                    result != "") {
+                const res = result + newOperand
+                setFormula(res)
+                setResult("")
+            }
+            else {
+                setFormula((prev) => prev + newOperand)
+            }
         }
     }
     return (
@@ -25,7 +48,7 @@ function Buttons({formula, setFormula, setOperand}) {
             <Button id={"seven"} operand={"7"} handleClick={handleClick} />
             <Button id={"eight"} operand={"8"} handleClick={handleClick} />
             <Button id={"nine"} operand={"9"} handleClick={handleClick} />
-            <Button id={"substract"} operand={"-"} handleClick={handleClick} />
+            <Button id={"subtract"} operand={"-"} handleClick={handleClick} />
             <Button id={"four"} operand={"4"} handleClick={handleClick} />
             <Button id={"five"} operand={"5"} handleClick={handleClick} />
             <Button id={"six"} operand={"6"} handleClick={handleClick} />
@@ -43,7 +66,10 @@ function Buttons({formula, setFormula, setOperand}) {
 Buttons.propTypes = {
     formula: PropTypes.string.isRequired,
     setFormula: PropTypes.func.isRequired,
-    setOperand: PropTypes.func.isRequired
+    setOperand: PropTypes.func.isRequired,
+    setResult: PropTypes.func.isRequired,
+    result: PropTypes.string.isRequired,
+    operand: PropTypes.string.isRequired
 }
 
 export default Buttons
