@@ -3,22 +3,26 @@ import { evaluate } from "mathjs"
 import PropTypes from 'prop-types'
 
 function Buttons({formula, setFormula, setOperand, setResult, result, operand}) {
+    const mathSymbolSet = new Set(["+", "-", "/", "*", ".", "="])
+    const mathOperatorSet = new Set(["+", "-", "/", "*"])
     const handleClick = (newOperand) => {
-        if((operand == "+" ||
-            operand == "-" ||
-            operand == "/" ||
-            operand == "*" ||
-            operand == "." ||
-            operand == "=") &&
-            operand == newOperand) {
-            //pass
+        if(mathSymbolSet.has(operand) && operand == newOperand) return
+        else if(mathOperatorSet.has(operand) && mathOperatorSet.has(newOperand)) {
+            if(newOperand == "-") setFormula((prev) => prev + newOperand)
+            else {
+                let counter = -1
+                while (mathOperatorSet.has(formula.slice(counter - 1, counter))) {
+                    counter--
+                }
+                setFormula((prev) => prev.slice(0, counter) + newOperand)
+            } 
         }
         else {
             setOperand(newOperand)
             if(newOperand == "AC") {
                 setFormula("")
                 setResult("")
-                setOperand("")
+                setOperand("0")
             }
             else if(newOperand == "=") {
                 const res = evaluate(formula).toString()

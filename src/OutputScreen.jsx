@@ -3,12 +3,7 @@ import { useState } from "react"
 import PropTypes from 'prop-types'
 
 function OutputScreen({operand, formula, result}) {
-    const [output, setOutput] = useState("")
-    useEffect(() => {
-        if(formula == "") {
-            setOutput("")
-        }
-    }, [formula])
+    const [output, setOutput] = useState("0")
     useEffect(() => {
         if(result != "") {
             setOutput(result)
@@ -21,6 +16,14 @@ function OutputScreen({operand, formula, result}) {
                 formula.slice(-1) == "*") {
             setOutput(operand)
         }
+        else if(formula == "") {
+            setOutput("0")
+        }
+        else if(formula.length == 1){
+            setOutput(formula)
+        }
+        else if(output == 0 && operand == 0) return
+        else if(output.includes(".") && operand == ".") return
         else {
             setOutput((prev) => prev + formula.slice(-1))
         }
