@@ -15,6 +15,7 @@ function Buttons({formula, setFormula, setOperand, setResult, result, operand}) 
                     counter--
                 }
                 setFormula((prev) => prev.slice(0, counter) + newOperand)
+                setOperand(newOperand)
             } 
         }
         else {
@@ -22,7 +23,7 @@ function Buttons({formula, setFormula, setOperand, setResult, result, operand}) 
             if(newOperand == "AC") {
                 setFormula("")
                 setResult("")
-                setOperand("0")
+                //setOperand("0")
             }
             else if(newOperand == "=") {
                 const res = evaluate(formula).toString()

@@ -16,13 +16,26 @@
 
 #root {
   max-width: 1280px;
+  height: 100vh;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  /* flex-wrap: wrap; */
+  gap: 1em;
+  justify-content: center;
+  align-items: center;
+}
+
+#me, #me > a {
+	color: white;
+	text-decoration: none;
+	font-size: 0.8rem
 }
 
 #calculator {
-  max-width: 400px;
+  width: 300px;
   padding: 5px;
   background-color: black;
   border: 1px solid grey;
@@ -31,7 +44,7 @@
 
 #formula, #display {
   font-family: digital;
-  min-height: 50px;
+  min-height: 40px;
 }
 
 #formula {
@@ -49,8 +62,8 @@
 
 .buttons {
   display: grid;
-  height: 400px;
-  grid-template-rows: 80px 80px 80px 80px 80px;
+  height: 300px;
+  grid-template-rows: 60px 60px 60px 60px 60px;
   grid-template-columns: auto auto auto auto;
 }
 
